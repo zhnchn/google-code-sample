@@ -1,5 +1,10 @@
 package com.google;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class VideoPlayer {
 
   private final VideoLibrary videoLibrary;
@@ -13,8 +18,14 @@ public class VideoPlayer {
   }
 
   public void showAllVideos() {
-    System.out.println("showAllVideos needs implementation");
-    //test git
+    System.out.println("Here's a list of all available videos:");
+    List<Video> sortedVideoLibrary = videoLibrary.getVideos();
+
+    sortedVideoLibrary.sort(Comparator.comparing(Video::getTitle));
+
+    for (Video vid : sortedVideoLibrary) {
+      System.out.println(vid.getTitle() + " " + vid.getVideoId()+ " " + vid.getTags());
+    }
   }
 
   public void playVideo(String videoId) {
