@@ -8,6 +8,9 @@ import java.util.List;
 public class VideoPlayer {
 
   private final VideoLibrary videoLibrary;
+  private boolean isPlaying = false;
+  private String currentVideo = "";
+  private String prevVideo = "";
 
   public VideoPlayer() {
     this.videoLibrary = new VideoLibrary();
@@ -20,17 +23,33 @@ public class VideoPlayer {
   public void showAllVideos() {
     System.out.println("Here's a list of all available videos:");
     List<Video> sortedVideoLibrary = videoLibrary.getVideos();
-
     sortedVideoLibrary.sort(Comparator.comparing(Video::getTitle));
 
     for (Video vid : sortedVideoLibrary) {
-      System.out.println(vid.getTitle() + " " + vid.getVideoId()+ " " + vid.getTags());
+      System.out.println(vid.getTitle() + " (" + vid.getVideoId()+ ") " + vid.getTags());
     }
   }
 
   public void playVideo(String videoId) {
-    System.out.println("playVideo needs implementation");
+
+    currentVideo = videoId;
+
+    if (videoLibrary.getVideo(videoId) == null) {
+      System.out.println("Cannot play video: Video does not exist");
+    }
+    else {
+      if (isPlaying) {
+        System.out.println("Stopping video: " + videoLibrary.getVideo(prevVideo).getTitle());
+        System.out.println("Playing video: " + videoLibrary.getVideo(currentVideo).getTitle());
+      }
+      if (!isPlaying) {
+        System.out.println("Playing video: " + videoLibrary.getVideo(currentVideo).getTitle());
+        isPlaying = true;
+      }
+      prevVideo = currentVideo;
+    }
   }
+
 
   public void stopVideo() {
     System.out.println("stopVideo needs implementation");
